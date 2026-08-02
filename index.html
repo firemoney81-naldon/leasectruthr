@@ -1,23 +1,991 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-    <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
-    </nav>
+
+   <style>
+        :root {
+            --primary-color: #5d707f;
+            --primary-light: #f1f5f8;
+            --secondary-color: #dfb2a9;
+            --secondary-light: #fcf6f4;
+            --accent-color: #8fa08e;
+            --accent-light: #f5f7f4;
+            --text-color: #2b2b2b;
+            --text-muted: #6b6b6b;
+            --bg-light: #faf8f5;
+            --card-bg: #ffffff;
+            --border-color: #e6dfd9;
+            --success-color: #798e7c;
+        }
+
+        body {
+            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+            color: var(--text-color);
+            background-color: var(--bg-light);
+            word-break: keep-all;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 40px 5%;
+            text-align: center;
+            border-bottom: 4px solid var(--secondary-color);
+        }
+
+        header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav li {
+            padding: 10px 15px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 0.95em;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        main {
+            padding: 40px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section {
+            background-color: var(--card-bg);
+            padding: 40px;
+            margin-bottom: 40px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+        }
+
+        h2 {
+            font-size: 1.8em;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 15px;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: 1.4em;
+            color: var(--text-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 12px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        /* Forms styling */
+        form {
+            background-color: var(--bg-light);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        input[type="text"], input[type="tel"], input[type="email"], input[type="number"], select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 0.95em;
+            background-color: white;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .radio-group label {
+            font-weight: normal;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        button.submit-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.05em;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 10px rgba(93, 112, 127, 0.2);
+        }
+
+        button.submit-btn:hover {
+            background-color: #4a5a67;
+        }
+
+        /* Calculator Styling */
+        .calculator-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            background-color: var(--secondary-light);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid var(--secondary-color);
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .calculator-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .calculator-result {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .result-price {
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 15px 0;
+        }
+
+        .result-note {
+            font-size: 0.85em;
+            color: var(--text-muted);
+        }
+
+        /* Checklist styling */
+        .checklist-container {
+            background-color: var(--accent-light);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid var(--accent-color);
+            margin-bottom: 30px;
+        }
+
+        .progress-bar-container {
+            background-color: #e0e0e0;
+            border-radius: 8px;
+            height: 18px;
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            background-color: var(--success-color);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            text-align: center;
+            color: white;
+            font-size: 0.75em;
+            line-height: 18px;
+            font-weight: 600;
+        }
+
+        .checklist-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .check-item input[type="checkbox"] {
+            margin-top: 5px;
+        }
+
+        /* Dynamic spec tabs */
+        .tabs-container {
+            margin: 30px 0;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 5px;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background-color: transparent;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text-muted);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Tables & Charts */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.01);
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            text-align: left;
+            font-size: 0.9em;
+        }
+
+        th {
+            background-color: var(--primary-light);
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .chart-container {
+            margin: 30px 0;
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .chart-row {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .chart-label {
+            font-size: 0.85em;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .chart-bar-wrapper {
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            height: 24px;
+            overflow: hidden;
+        }
+
+        .chart-bar {
+            background-color: var(--secondary-color);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-size: 0.8em;
+            font-weight: 600;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        /* FAQ Accordion */
+        .faq-dl dt {
+            cursor: pointer;
+            font-weight: 600;
+            background-color: white;
+            padding: 18px 20px;
+            border: 1px solid var(--border-color);
+            margin-top: -1px;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-dl dt:hover {
+            background-color: var(--primary-light);
+        }
+
+        .faq-dl dt::after {
+            content: "+";
+            font-size: 1.4em;
+            color: var(--primary-color);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-dl dt.active::after {
+            content: "-";
+            transform: rotate(180deg);
+        }
+
+        .faq-dl dd {
+            padding: 20px;
+            background-color: #fdfdfd;
+            border-left: 3px solid var(--primary-color);
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            margin: 0;
+            display: none;
+            line-height: 1.8;
+            color: var(--text-color);
+        }
+
+        .faq-dl dt.active + dd {
+            display: block;
+        }
+
+        /* Keyword cloud and links */
+        .keyword-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .keyword-tags span {
+            display: inline-block;
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 500;
+            border: 1px solid rgba(93, 112, 127, 0.1);
+        }
+
+        .related-links {
+            margin-top: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .related-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            width: fit-content;
+        }
+
+        .related-links a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 40px 0;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            nav ul {
+                flex-direction: column;
+            }
+            nav li {
+                width: 100%;
+                text-align: center;
+                padding: 12px 0;
+                border-bottom: 1px solid var(--border-color);
+            }
+            section {
+                padding: 25px;
+            }
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": "기아 더올뉴 모닝 리스",
+          "image": "https://lease.reliabledone.com/images/morning.jpg",
+          "description": "2026년형 기아 더올뉴 모닝 리스 최저가 견적 비교 플랫폼. 개인 및 법인 사업자 맞춤형 리스 요금 설계 및 무보증 특판 상품을 제공합니다.",
+          "brand": {
+            "@type": "Brand",
+            "name": "기아 (KIA)"
+          },
+          "offers": {
+            "@type": "AggregateOffer",
+            "lowPrice": "120000",
+            "highPrice": "310000",
+            "priceCurrency": "KRW",
+            "offerCount": "50",
+            "areaServed": "KR"
+          }
+        }
+    </script>
+</head>
+<body>
+
+    <header>
+        <h1>기아 더올뉴 모닝 리스 다이렉트 가격 비교 플랫폼</h1>
+        <p>전국 주요 금융사 제휴를 바탕으로 유통 거품을 최소화한 무보증 특판 리스 견적을 실시간으로 안내합니다. 합리적인 자산관리와 신속한 출고 프로세스를 지금 경험해 보세요.</p>
+        <nav aria-label="기본 메뉴">
+            <ul>
+                <li><a href="#견적요청">실시간 리스 신청</a></li>
+                <li><a href="#계산기영역">리스 요금 계산기</a></li>
+                <li><a href="#가격비교">트림별 금액 분석</a></li>
+                <li><a href="#트렌드">2026 모빌리티 트렌드</a></li>
+                <li><a href="#선택가이드">리스 장단점 가이드</a></li>
+                <li><a href="#자주묻는질문">자주 묻는 질문</a></li>
+            </ul>
+        </nav>
+    </header>
+
     <main>
-      <h1>Home page</h1>
+        
+        <section id="견적요청">
+            <h2>기아 더올뉴 모닝 리스 실시간 맞춤 견적 요청</h2>
+            <p>다이렉트 유통 경로를 통해 영업 수수료가 제외된 진짜 가격을 전달해 드립니다. 희망하시는 세부 트림과 옵션을 지정해 신청 주시면 전국 제휴사 연동 시스템을 거쳐 매칭 조건의 최저가 순위를 선별하여 맞춤 상담을 제공해 드립니다.</p>
+            
+            <form action="/submit-lease-estimate" method="POST">
+                <div class="form-group">
+                    <label for="car-model">1. 더올뉴 모닝 모델 및 트림 선택 (필수)</label>
+                    <select id="car-model" name="car-model" required>
+                        <option value="">모델을 선택하세요</option>
+                        <option value="Trendy">더올뉴 모닝 가솔린 1.0 트렌디 (가장 대중적)</option>
+                        <option value="Prestige">더올뉴 모닝 가솔린 1.0 프레스티지 (스마트 편의사양 탑재)</option>
+                        <option value="Signature">더올뉴 모닝 가솔린 1.0 시그니처 (최고급 인테리어 사양)</option>
+                        <option value="GT-line">더올뉴 모닝 가솔린 1.0 GT-line (스포티 익스테리어 적용)</option>
+                        <option value="Van Trendy">더올뉴 모닝 가솔린 1.0 밴 트렌디 (업무 및 화물 적재 전용)</option>
+                        <option value="Van Prestige">더올뉴 모닝 가솔린 1.0 밴 프레스티지 (개인 사업자 추천)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="rental-period">2. 약정 계약 기간 (필수)</label>
+                    <select id="rental-period" name="rental-period" required>
+                        <option value="">계약 기간을 선택하세요</option>
+                        <option value="36">36개월 (3년)</option>
+                        <option value="48">48개월 (4년)</option>
+                        <option value="60">60개월 (5년)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="annual-mileage">3. 연간 약정 운행 거리 (선택)</label>
+                    <select id="annual-mileage" name="annual-mileage">
+                        <option value="10000">1만 km 이하 (가장 저렴한 요금제 산출)</option>
+                        <option value="20000">2만 km (표준형 설정)</option>
+                        <option value="30000">3만 km (영업용 및 장거리 출퇴근)</option>
+                        <option value="unlimited">제한 없음 (반납 불가 조건 적용 가능)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="deposit-type">4. 초기 비용 조건 설정 (선택)</label>
+                    <select id="deposit-type" name="deposit-type">
+                        <option value="0">무보증금 및 무선납금 (초기 투입비용 제로)</option>
+                        <option value="10">보증금 10% (금리 할인 혜택)</option>
+                        <option value="20">보증금 20% (잔존가치 상쇄 설계)</option>
+                        <option value="30">보증금 30% (인수 시 추가 비용 최소화)</option>
+                        <option value="sunnap">선납금 30% (월 납입 요금 최소화 목적)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="driver-age">5. 계약 주체 및 주행 연령 (필수)</label>
+                    <input type="number" id="driver-age" name="driver-age" placeholder="예: 26 (만 26세 이상 여부 확인)" min="21" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="contact-tel">6. 연락처 (필수)</label>
+                    <input type="tel" id="contact-tel" name="contact-tel" placeholder="010-0000-0000" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="additional-notes">7. 특이 사항 및 요청 사항 (선택)</label>
+                    <textarea id="additional-notes" name="additional-notes" placeholder="현금지원 수준 문의, 신규 개인 사업자 가입 혜택, 블랙박스 썬팅 사은품 지원 여부 등 궁금하신 부분을 자유롭게 기재해 주세요."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">온라인 비대면 비교 견적 신청하기</button>
+            </form>
+            
+            <div class="keyword-tags">
+                <span>더올뉴 모닝 리스 가격</span>
+                <span>모닝 리스 최저가</span>
+                <span>다이렉트 견적</span>
+                <span>무보증 리스 조건</span>
+                <span>개인사업자 세제혜택</span>
+                <span>경차 장기렌트 비교</span>
+                <span>출고 좌표 안내</span>
+                <span>2026 모닝 혜택</span>
+            </div>
+        </section>
+        
+        <hr>
+
+        <section id="계산기영역">
+            <h2>스마트 다이렉트 리스 요금 계산기</h2>
+            <p>직관적인 연산 로직을 탑재한 계산기 프로그램을 통하여 트림별 금액을 자가 측정할 수 있습니다. 원하는 세부 등급을 선택하고, 선납금 혹은 보증금 비율을 슬라이더로 직접 조절하여 월 납입료가 얼마 정도로 도출되는지 즉석에서 확인해 보세요.</p>
+            
+            <div class="calculator-container">
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label for="calc-trim">차량 등급 및 트림 선택</label>
+                        <select id="calc-trim" onchange="calculateLease()">
+                            <option value="13950000" selected>트렌디 (출고가격 1,395만원)</option>
+                            <option value="15750000">프레스티지 (출고가격 1,575만원)</option>
+                            <option value="17750000">시그니처 (출고가격 1,775만원)</option>
+                            <option value="18700000">GT-line (출고가격 1,870만원)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>초기 자금 투입 방식</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="calc-type" value="prepaid" checked onchange="calculateLease()"> 선납금 (월 납입금 소멸성 차감)</label>
+                            <label><input type="radio" name="calc-type" value="deposit" onchange="calculateLease()"> 보증금 (만기 시 반환 금액)</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="calc-ratio">선입금 납부 비율: <span id="ratio-value">30</span>%</label>
+                        <input type="range" id="calc-ratio" min="0" max="50" step="10" value="30" oninput="updateRatioValue(this.value); calculateLease();">
+                    </div>
+                    <div class="form-group">
+                        <label>약정 기간 설정</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="calc-period" value="36" onchange="calculateLease()"> 36개월</label>
+                            <label><input type="radio" name="calc-period" value="48" onchange="calculateLease()"> 48개월</label>
+                            <label><input type="radio" name="calc-period" value="60" checked onchange="calculateLease()"> 60개월</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="calculator-result">
+                    <h3>예상 월 리스 요금</h3>
+                    <div class="result-price"><span id="calculated-price">120,000</span>원</div>
+                    <p class="result-note">상기 산출액은 연간 약정거리 2만km, 만 26세 이상 다이렉트 표준 금리 적용 시점의 가상 계산 금액입니다. 개인 신용 조건과 금융사 특별 프로모션 적용 여부에 따라 실제 체결 요금과는 차이가 생길 수 있으니 최적 견적은 정식 온라인 컨설팅을 요청하시기 바랍니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <section id="가격비교">
+            <h2>트림별 실시간 요금 비교 및 예상 조건표</h2>
+            <p>기아의 대표 경형 세그먼트 브랜드인 모닝은 취등록세 면제와 유류비 환급 등 경제성 면에서 최상위 등급의 평판을 고수하고 있습니다. 유통 거품이 완전히 제거된 전국 에이전트 기준 실속 견적을 정리한 예상 단가표를 참고하시어 나만의 최적 차종을 설계해 보세요.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>모닝 등급 구성</th>
+                        <th>공식 출시 가격</th>
+                        <th>60개월 선납30% 기준</th>
+                        <th>핵심 내장 및 옵션 특징</th>
+                        <th>어울리는 주행 고객군</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>가솔린 1.0 트렌디</td>
+                        <td>1,395만 원</td>
+                        <td>월 120,000원 대</td>
+                        <td>콤팩트한 구성, 직관적인 주행 안전 어시스트 패키지</td>
+                        <td>20대 사회 초년생의 단거리 출퇴근 및 등하교</td>
+                    </tr>
+                    <tr>
+                        <td>가솔린 1.0 프레스티지</td>
+                        <td>1,575만 원</td>
+                        <td>월 135,200원 대</td>
+                        <td>인조가죽 열선 시트, 버튼시동 및 스마트키 시스템 기본 적용</td>
+                        <td>패밀리 세컨카 및 일상 생활 밀착형 주행 오너</td>
+                    </tr>
+                    <tr>
+                        <td>가솔린 1.0 시그니처</td>
+                        <td>1,775만 원</td>
+                        <td>월 152,200원 대</td>
+                        <td>8인치 디스플레이 네비게이션, Full LED 헤드램프 탑재</td>
+                        <td>첨단 멀티미디어 조작 및 장거리 고속도로 정속 주행 오너</td>
+                    </tr>
+                    <tr>
+                        <td>가솔린 1.0 GT-line</td>
+                        <td>1,870만 원</td>
+                        <td>월 160,200원 대</td>
+                        <td>GT 전용 바디킷 및 스포티 전용 스티어링 휠 매칭</td>
+                        <td>차별화된 디자인 레이아웃과 개성을 중시하는 소비자</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>※ 개재된 월 납입 요금은 보편적 특판 할인 및 2만 킬로미터 약정 기준이며, 금융사의 가치 잔존율 정책에 따라 실시간으로 변동됩니다. 다이렉트 한도 매칭 사이트에서 제공되는 특화 프로그램을 경유할 경우, 시기별 한정 할인율 및 에이전시 자체 지원금 혜택이 병행되어 표기된 예시보다 한층 합리적인 납입 구도를 창출해 내실 수 있습니다.</p>
+
+            <div class="chart-container">
+                <h3>연령대별 리스 가입 선호 분포도</h3>
+                <p>2026년 기준 본 플랫폼을 통해 계약이 성사된 고객 세그먼트를 연령별로 통계화한 지표입니다. 젊은 층의 비율이 지배적이나 세컨카 목적의 중장년층 가입 추이 역시 꾸준히 강세를 이어갑니다.</p>
+                <div class="bar-chart">
+                    <div class="chart-row">
+                        <span class="chart-label">20대 첫차 구매</span>
+                        <div class="chart-bar-wrapper">
+                            <div class="chart-bar" style="width: 42%;">42%</div>
+                        </div>
+                    </div>
+                    <div class="chart-row">
+                        <span class="chart-label">30대 세컨카 운용</span>
+                        <div class="chart-bar-wrapper">
+                            <div class="chart-bar" style="width: 28%;">28%</div>
+                        </div>
+                    </div>
+                    <div class="chart-row">
+                        <span class="chart-label">40대 주부 생활차</span>
+                        <div class="chart-bar-wrapper">
+                            <div class="chart-bar" style="width: 18%;">18%</div>
+                        </div>
+                    </div>
+                    <div class="chart-row">
+                        <span class="chart-label">50대 이상 사업자</span>
+                        <div class="chart-bar-wrapper">
+                            <div class="chart-bar" style="width: 12%;">12%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <hr>
+
+        <section id="트렌드">
+            <h2>2026 대한민국 모빌리티 시장과 리스 금융의 융합</h2>
+            <p>세계적인 경제 둔화의 장기화와 실용 소비에 대한 인식 전환으로 고가의 대형 차량보다는 유지 부담이 적고 다채로운 경차 혜택을 온전히 소유할 수 있는 모닝 세그먼트의 부활이 2026년 오토 시장의 화두로 떠올랐습니다. 특히 세법 규정이 고도화됨에 따라 개인과 기업 오너들이 경차를 리싱하는 빈도가 급상승하고 있습니다.</p>
+
+            <h3>세법상 비용처리의 투명성과 경차 리스의 궁극적 융합</h3>
+            <p>부가가치세 환급이 불가능한 일반 세단 계열과 달리 모닝은 국가에서 규정한 국민 경차 규격을 준수하므로 개인 사업자 및 법인이 업무용 차량으로 등록할 경우 리스 요금에 포함된 부가세 10% 환급 혜택이 즉시 적용됩니다. 더불어 연간 최대 1,500만 원 한도까지 렌탈 비용과 유류세를 합산하여 손비처리가 가능하므로 과세 표준 구간을 영리하게 제어하여 세금 절감 효과를 거두려는 전략적 선택이 늘어나는 추세입니다.</p>
+            
+            <h3>선납금과 보증금 운용 체계의 구조적 상이점 규명</h3>
+            <p>초기 자산 예산을 배정하는 방법에 있어서 선납금과 보증금의 차이점을 명확히 짚어두어야 계약 만기 시에 겪을 혼선을 조기에 불식시킬 수 있습니다. 선납금 방식은 총 이용 요금 중 일부를 사전에 미리 차감 지불해 두는 것이므로 매달 내야 하는 월 리스 요금을 가장 대폭 경감시키는 최적의 효과를 불러옵니다. 그러나 이 금액은 기한의 만료와 동시에 소멸하여 돌려받을 수 없습니다. 반대로 보증금은 예치 기간 담보용 예금 성격을 띠기 때문에 월 비용은 상대적으로 다소 높게 책정될지언정, 만기 시점에 전액 일시 환급을 청구할 수 있어 최종 인수 금액과의 상계를 통해 실질적인 내 차 만들기를 완수하기에 한층 안정적인 구조입니다.</p>
+
+            <div class="tabs-container">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="switchTab(event, 'tab-spec1')">트렌디 핵심 제원</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'tab-spec2')">프레스티지 사양</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'tab-spec3')">시그니처 고가옵션</button>
+                </div>
+                <div id="tab-spec1" class="tab-content active">
+                    <h4>트렌디 등급 표준 명세</h4>
+                    <p>3기통 1.0 가솔린 자연흡기 엔진과 4단 자동변속기가 탑재되어 우수한 시내 실연비를 완성합니다. 14인치 스틸 휠 및 무선 도어잠금장치가 배합되어 최소한의 핵심 부품만을 경제적으로 배치한 고유 특성을 살려, 실속형 유저에게 제일 저렴하게 적용 가능한 엔트리 등급입니다.</p>
+                </div>
+                <div id="tab-spec2" class="tab-content">
+                    <h4>프레스티지 등급 편의성 강화</h4>
+                    <p>14인치 알로이 휠 교환과 함께 후방 모니터 및 인조 가죽 열선 시트가 채택되어 장시간 주행에도 우수한 편안함을 선사합니다. 주 타겟 오너인 30대 가입자들에게 만족감이 높은 시그니처급 가성비의 최적 타협점을 이루는 등급군입니다.</p>
+                </div>
+                <div id="tab-spec3" class="tab-content">
+                    <h4>시그니처 등급 최상급 스마트 패키지</h4>
+                    <p>스마트 크루즈 컨트롤 시스템과 후측방 충돌 방지 보조 시스템이 완전 탑재되어 안전 등급을 한 차원 향상시켰습니다. 8인치 네비게이션과 폰 프로젝션 환경이 구현되어 인포테인먼트 사용 비중이 막중한 테크 오너들에게 권장되는 조합입니다.</p>
+                </div>
+            </div>
+        </section>
+        
+        <hr>
+        
+        <section id="선택가이드">
+            <h2>성공적인 모닝 리스 계약을 위한 신뢰 파트너 가이드</h2>
+            <p>수많은 신차 에이전시 및 리스사 중에서 진정한 가치를 입증하는 업체를 골라내기란 쉽지 않습니다. 당사 비교 사이트는 단순 견적 비교에 머물지 않고, 고객이 직면할 사후 리스크까지 미연에 분석하여 안전한 자산 운용을 지원합니다.</p>
+
+            <h3>리스 전문 에이전시 선정을 위한 엄격한 준수 가이드</h3>
+            <ul>
+                <li>수수료가 철저하게 제거된 투명한 견적을 송출하는 곳인지 필수 체크합니다.</li>
+                <li>만기 시 차량 반환 지연 페널티 및 중도해지수수료 요율 조건이 공시된 규정을 투명하게 밝히는지 확인합니다.</li>
+                <li>사고 시 책임 보장 범위와 대차 지원 프로세스가 구축된 정비 제휴망을 구비했는지 대조합니다.</li>
+                <li>커뮤니티 내의 허위 낚시성 좌표가 아닌 오프라인 법인 기업으로서 평판과 인증을 축적했는지 대조합니다.</li>
+            </ul>
+
+            <div class="checklist-container">
+                <h3>계약 확정 전 자가 점검 체크리스트</h3>
+                <p>본인 주도로 아래 준비 항목을 면밀히 완료하시고 승인 성공 가능성을 최대한 격상시켜 보세요.</p>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="checklist-progress">0%</div>
+                </div>
+                <div class="checklist-items">
+                    <label class="check-item">
+                        <input type="checkbox" onchange="updateProgress()" class="chk-box"> 전국 유수의 제휴 금융사별 한도 심사 기준 비교 프로세스를 경유해 보았습니다.
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox" onchange="updateProgress()" class="chk-box"> 만기 시의 최종 의사 결정 방식인 인수와 반납에 맞춤한 잔존가치 설정을 점검했습니다.
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox" onchange="updateProgress()" class="chk-box"> 보험 명의가 내 주도로 유지되어 개인 무사고 경력이 고스란히 지속될 수 있는 요건임을 숙지했습니다.
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox" onchange="updateProgress()" class="chk-box"> 에이전시 자체 기획으로 가동하는 현금지원금 및 프리미엄 사은품 사양을 검증했습니다.
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox" onchange="updateProgress()" class="chk-box"> 금융사 승인 한도 부결 요인을 사전에 모니터링하기 위해 자가 진단 앱 기능을 실행해 보았습니다.
+                    </label>
+                </div>
+            </div>
+        </section>
+        
+        <hr>
+
+        <section id="정보센터">
+            <h2>경형 자동차 리스 금융 분석 정보실</h2>
+            <div>
+                <p>더올뉴 모닝 리스는 저렴한 유지 비용과 뛰어난 공간 활용 능력이라는 명확한 장점이 있는 반면, 계약 종료 시까지 자산을 신중하게 가꿔야 하는 일정한 주의 요소를 포함합니다. 계약을 서두르기 이전에 업계 내부에서 전수되는 시장 동향과 리스크 예방책을 깊이 있게 인지하여 실패 확률을 원천 제거하시길 권장합니다.</p>
+
+                <p>리스의 핵심적인 특징 중 하나는 렌터카 특유의 번호판 기호 규제로부터 완전히 자유롭다는 사실입니다. 흔히 하, 허, 호 등으로 분류되는 기호를 장착해야만 하는 장기렌트와는 달리 일반 차량 등록 번호 체계를 적용하므로, 심미적인 불쾌감이나 품위 손상에 민감한 사업용 소유주분들께 심리적인 포만감을 제공합니다. 또한 일반 가입자의 명의로 결성되는 종합보험 요율을 연동할 수 있으므로, 기존에 모범적인 장기 무사고 경력이 고스란히 온존되길 바라는 베테랑 드라이버분들에게는 기존 보험 할인을 연장해 나가는 측면에서 더할 나위 없이 좋은 선택입니다.</p>
+
+                <p>반면, 면허 취득 직후이거나 과거 빈번한 사고 전력 탓에 종합 보험 요율이 과도하게 불리한 상태에 놓인 운전자라면 리스에 포함될 보험 요금보다 오히려 다이렉트 렌탈 상품을 경유하는 것이 최종 비용 절감 측면에서 우월할 여지도 존재하므로, 당사가 제공하는 세부 포트폴리오를 대조해 보실 때 이 차이점을 담당 팀원과의 심도 깊은 소통을 거쳐 현명하게 타협하시는 것을 추천합니다.</p>
+
+                <p>최근에는 디시인사이드 경차 동호회를 포함해 보배드림 오너 단톡방, 그리고 루리웹 및 에펨코리아 자동차 전용 포럼에서 소위 최저가 성지라 불리는 숨겨진 판매 좌표를 발굴하려는 누리꾼들의 움직임이 눈부시게 이어지고 있습니다. 이러한 소문 기반의 출고 좌표 중에는 간혹 정직하지 못한 유통 업자가 개입하여 고가의 사후 유지 정비 패키지를 강제로 끼워 팔아 월 납입료를 왜곡되게 부풀리는 수법을 부릴 위험도 존재하므로 각별한 주의가 요구됩니다. 정직하고 명망 있는 리스 사이트를 통해 표준 계산서에 등재되는 실질 취득원가와 실이율을 대조하는 습관이 반드시 수반되어야 합니다.</p>
+
+                <p>저희가 운영하는 실시간 연동 비교 플랫폼은 2026년 들어 스마트 모빌리티 중개 특화 지능 시스템을 적용해 한층 고도화된 설루션을 배포하고 있습니다. 구글 검색 및 네이버 블로그에 수록된 누적 계약 빅데이터는 물론이고, 인스타그램 릴스와 유튜브에서 소개되는 최근의 소비자 트렌드 데이터까지 머신러닝 분석을 활용하여 유행 흐름을 실시간으로 추적합니다. 이를 통해 얻어진 최상의 조언 데이터를 생성형 인공지능인 제미나이 및 챗지피티 기술 엔진과 융합하여, 개별 소득 요건 및 직무 라이프 스타일에 매칭되는 1대1 특판 추천을 도출하고 있습니다.</p>
+
+                <p>뿐만 아니라, 고객의 가입 접근성을 극적으로 단축하고자 카카오톡 간편 채팅 프로세스와 통합 지원 콜센터를 항시 연동하고 있어 실시간 금리 조회 승인 가능 여부를 3분 만에 판단하는 이례적인 신속 서비스를 영위하고 있습니다. 최근 유행하는 모바일 자산관리 핀테크 플랫폼인 토스 연동 한도 조회 상품 역시 정식으로 라인업하여 직장인들의 직관적인 이용 편의성을 드높이고 있습니다.</p>
+
+                <p>가족 구성원이 근거리 시내 마실용이나 아이들의 통학 차량으로 사용하기 좋은 시그니처급 등급부터, 짐 칸의 격벽 공간을 획기적으로 늘린 소상공인 최적화 밴 트렌디 차종까지, 고객이 필요로 하는 모든 종류의 더올뉴 모닝을 단 일주일 이내에 완벽하게 집 앞까지 인도하는 빠릿출고 프로그램이 연중 상시 가동되고 있습니다. 이번 기회에 복잡다단한 행정 절차와 각종 세금 신차 등록의 귀찮음에서 영구히 해방되는 편리한 차량 소유 라이프를 마음껏 시작해 보시기 바랍니다.</p>
+            </div>
+        </section>
+        
+        <hr>
+
+        <section id="자주묻는질문">
+            <h2>자주 묻는 질문 (FAQ)</h2>
+            <dl class="faq-dl">
+                <dt tabindex="0" aria-expanded="false">[질문] 모닝 리스는 다이렉트 렌트와 비교해 어떤 장단점이 명확한가요?</dt>
+                <dd>[답변] 모닝 리스는 하, 허, 호 등의 영업용 번호판이 아닌 일반 승용 번호판을 사용하므로 품위 유지 면에서 강력한 장점을 가집니다. 또한 개인 보험 경력이 단절 없이 축적되는 반면, 주행 약정거리가 상대적으로 다소 정교하게 제한되며, 중도에 조기 상환 혹은 계약 파기 시 부과되는 페널티인 중도해지수수료 요율이 렌트에 비해 다소 타이트하다는 단점이 수반됩니다. 상세 요건은 본인의 운용 유형에 맞춰 전용 컨설팅을 통해 결합 조율하시는 것을 추천합니다.</dd>
+                
+                <dt tabindex="0" aria-expanded="false">[질문] 대학생이나 무소득 20대 오너도 비대면 다이렉트 심사 승인이 가능한가요?</dt>
+                <dd>[답변] 가능합니다. 일정 수준의 보증금을 거치하거나 주거래 은행 통장의 최근 평잔 증빙 방법, 혹은 부모님과의 연대 보증 서류 보완 과정을 거치면 비대면 모바일 어플 한도 심사에서 충분히 원활한 자격 요건을 취득하실 수 있습니다. 계약 체결 성지에 등재되는 무보증 우회 승인 노하우를 접목해 드리고 있으니 간편 무료 한도 산정을 우선 신청하여 조율 받아보시길 바랍니다.</dd>
+                
+                <dt tabindex="0" aria-expanded="false">[질문] 법인이나 개인 사업자가 만기 시 차량을 온전하게 인수하려 할 때 유리한 꿀팁은 무엇인가요?</dt>
+                <dd>[답변] 장기 계약 이후 완전 인수를 계획하고 계신다면, 리스 승인 심사 시점부터 보증금 비율을 차량의 약정 잔존가치 요율과 정확히 대칭 구조로 매칭하는 설계를 적극 권장합니다. 이렇게 설정할 경우 만기 도래와 동시에 추가로 내야 하는 잔여 납입 금액이 완벽히 갈음 상쇄되므로, 추가 목돈 지출의 고통 없이 아주 간소한 서류 교환 절차만으로 온전하게 마이카 시대로 연동할 수 있는 핵심적인 설계 노하우입니다.</dd>
+                
+                <dt tabindex="0" aria-expanded="false">[질문] 에이전시 자체 지원 혜택이나 특판 사은품은 어떠한 것들이 마련되어 있나요?</dt>
+                <dd>[답변] 신차 출고 고객을 축하하기 위한 명목으로 가입과 함께 프리미엄 열차단 윈도우 틴팅 시공권과 고해상도 전후방 2채널 블랙박스 장착 서비스를 무상 지원합니다. 아울러 당사의 비대면 다이렉트 한정 이벤트를 통해 계약을 조기 완수하신 고객 전원에게는 첫 달 유류비 차감 혜택으로 연동 가능한 모바일 주유 상품권을 증정하는 풍성한 프로모션을 가동 중에 있습니다.</dd>
+            </dl>
+        </section>
+
+        <section id="related-keywords">
+            <h2>연관 태그 카테고리 정보</h2>
+            <p>다이렉트 모빌리티 시장에서 소비자들이 유기적으로 탐색하는 연관 테마 정보 및 소셜 플랫폼 화제 카테고리 일람입니다.</p>
+            <div class="keyword-tags" aria-label="연관 키워드 목록">
+                <span>모닝 리스 평균 비용</span>
+                <span>월 납부료 얼마 예상</span>
+                <span>경차 금융 지원금</span>
+                <span>에이전시 현금지원 수준</span>
+                <span>다이렉트 비대면 어플</span>
+                <span>만기 인수 계산법</span>
+                <span>잔존가치 잔금 차이점</span>
+                <span>토스 한도비교 서비스</span>
+                <span>디시인사이드 경차꿀팁</span>
+                <span>보배드림 오너 사용기</span>
+                <span>펨코 자동차 할인 성지</span>
+                <span>챗지피티 추천 포트폴리오</span>
+            </div>
+             <div class="related-links" aria-label="추천 카테고리 및 정보">
+                <a href="#견적요청">경차 리스 특별 온라인 가입 혜택 상세 보기</a>
+                <a href="#가격비교">개인 사업자 세무 비용 처리 환급 규정 가이드</a>
+                <a href="#계산기영역">2026 모닝 한정 즉시 출고 특판 리스트 조회</a>
+            </div>
+        </section>
+
     </main>
-  </body>
-</html>
+
+  
+
+    <script>
+        // Tab switching logic
+        function switchTab(evt, tabId) {
+            const tabcontents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabcontents.length; i++) {
+                tabcontents[i].classList.remove("active");
+            }
+            const tablinks = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(tabId).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Checklist update logic
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.chk-box');
+            const checked = document.querySelectorAll('.chk-box:checked');
+            const progress = document.getElementById('checklist-progress');
+            const percentage = Math.round((checked.length / checkboxes.length) * 100);
+            progress.style.width = percentage + '%';
+            progress.innerText = percentage + '%';
+        }
+
+        // Live calculator formula
+        function updateRatioValue(val) {
+            document.getElementById('ratio-value').innerText = val;
+        }
+
+        function calculateLease() {
+            const price = parseInt(document.getElementById('calc-trim').value);
+            const type = document.querySelector('input[name="calc-type"]:checked').value;
+            const ratio = parseInt(document.getElementById('calc-ratio').value) / 100;
+            const period = parseInt(document.querySelector('input[name="calc-period"]:checked').value);
+            
+            let residualRate = 0.45;
+            if (period === 48) residualRate = 0.50;
+            if (period === 36) residualRate = 0.55;
+            
+            const residualValue = price * residualRate;
+            let adjustedLease = 0;
+            
+            if (type === 'deposit') {
+                // Deposit reduces rate slightly but principal remains same
+                adjustedLease = (price * (1 - (ratio * 0.15)) - residualValue) / period + (price * 0.05 / 12);
+            } else {
+                // Prepaid money reduces actual amortized principal directly
+                adjustedLease = (price * (1 - ratio) - (residualValue * 0.7)) / period + (price * (1 - ratio) * 0.04 / 12);
+            }
+            
+            if (adjustedLease < 40000) adjustedLease = 40000;
+            
+            document.getElementById('calculated-price').innerText = Math.round(adjustedLease).toLocaleString();
+        }
+
+        // FAQ Accordion logic
+        document.querySelectorAll('.faq-dl dt').forEach((dt) => {
+            dt.addEventListener('click', () => {
+                const isActive = dt.classList.contains('active');
+                
+                document.querySelectorAll('.faq-dl dt').forEach(otherDt => {
+                    otherDt.classList.remove('active');
+                    otherDt.setAttribute('aria-expanded', 'false');
+                    const dd = otherDt.nextElementSibling;
+                    if (dd) {
+                        dd.style.display = 'none';
+                    }
+                });
+
+                if (!isActive) {
+                    dt.classList.add('active');
+                    dt.setAttribute('aria-expanded', 'true');
+                    const dd = dt.nextElementSibling;
+                    if (dd) {
+                        dd.style.display = 'block';
+                    }
+                }
+            });
+            
+            dt.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    dt.click();
+                }
+            });
+        });
+
+        // Initialize calculator
+        calculateLease();
+    </script>
+  
